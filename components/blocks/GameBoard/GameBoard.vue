@@ -33,7 +33,7 @@
                         :first-matrix-col="firstMatrixCol"
                         :last-matrix-col="lastMatrixCol"
                         :game-started="isStarted"
-                        :flag-marked-cells="flagMarkedCells"
+                        :flag-marked-cells="flagMarkedCells.value"
                         @open="(index) => openCell(index)"
                         @mark="(value) => markCell(value)"
                         @boom="lostGame"
@@ -72,11 +72,11 @@ let gameTime = ref('')
 // Game Settings
 let bombsArray = reactive([])
 let openedCells = reactive([])
-let flagMarkedCells = reactive([])
+let flagMarkedCells = ref([])
 const {gameMatrix, firstMatrixCol, lastMatrixCol } = spawnMatrix(props.mode.cols, props.mode.rows)
 
 const bombsInBoard = computed(() => {
-    return props.mode.bombs - flagMarkedCells.length
+    return props.mode.bombs - flagMarkedCells.value.length
 })
 
 const isAllCellsOpened = computed(() => {
@@ -121,7 +121,7 @@ function openAroundCell(index) {
 }
 function markCell({status, index}) {
     if (status === 'flag') {
-        flagMarkedCells.push(index)
+        flagMarkedCells.value.push(index)
     } else {
         deleteMarkedCell(index)
     }
@@ -130,12 +130,12 @@ function markCell({status, index}) {
 }
 
 function deleteMarkedCell(index) {
-    flagMarkedCells = flagMarkedCells.filter((id) => id !== index)
+    flagMarkedCells.value = flagMarkedCells.value.filter((id) => id !== index)
 }
 
 function wonGame() {
     // Если нужно для победы чтобы все бомбы были помечены флажками
-    // if (isEqualArray(flagMarkedCells, bombsArray) && isAllCellsOpened.value) {
+    // if (isEqualArray(flagMarkedCells.value, bombsArray) && isAllCellsOpened.value) {
     if (isAllCellsOpened.value) {
         isWon.value = true
         console.log(gameTime.value)
@@ -191,7 +191,7 @@ function restartGame() {
     isStarted.value = false
     isRestart.value = true
     gameTime.value = ''
-    flagMarkedCells.splice(0)
+    flagMarkedCells.value.splice(0)
     bombsArray.splice(0)
     openedCells.splice(0)
 }
