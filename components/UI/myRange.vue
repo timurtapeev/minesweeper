@@ -8,6 +8,7 @@
                 :max="max"
                 :step="step"
                 :label="label"
+                :key="modelValue"
                 @change="updateValue"
             />
         </Vueform>
