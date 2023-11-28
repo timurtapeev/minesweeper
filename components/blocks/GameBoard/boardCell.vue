@@ -1,7 +1,7 @@
 <template>
     <div class="game-cell"
          @click="openCell"
-         @contextmenu.prevent="changeMark"
+         @contextmenu.stop.prevent="changeMark"
          :style="{background: `${innerContent.background}`, color: numberColorSetting[bombAroundCount]}"
     >
         <template v-if="innerContent.type === 'image'">

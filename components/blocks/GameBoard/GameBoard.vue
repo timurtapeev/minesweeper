@@ -199,13 +199,16 @@ function restartGame() {
 </script>
 
 <style>
+.game-board {
+    padding: 0 1rem;
+}
 .game-board__row {
     display: flex;
 }
 .game-board__table {
     display: flex;
     flex-direction: column;
-    overflow-x: scroll;
+    overflow-x: auto;
     width: fit-content;
     max-width: 100%;
     margin: 0.75rem auto 4rem;
